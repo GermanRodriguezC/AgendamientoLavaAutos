@@ -1,0 +1,1 @@
+insert into cita(placa, fecha, hora, valor) values (:placa, :fecha, :hora, :valor)

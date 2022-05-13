@@ -1,0 +1,26 @@
+jasypt:
+  encryptor:
+    password: ${jasyptpwd:secretkey}
+    algorithm: PBEWithMD5AndDES
+
+server:
+  port: 8083
+  servlet:
+    context-path: /app
+    session:
+      timeout: 21600s
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    jdbcUrl: jdbc:h2:mem:citas;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=FALSE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    username: admin
+    password: rxbT993OlprExOEDcv6wedGb1NevY+02
+    hikari:
+      poolName: pool
+  h2:
+    console:
+      enabled: true
