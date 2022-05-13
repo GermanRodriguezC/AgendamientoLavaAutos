@@ -38,14 +38,14 @@ pipeline {
     stage('Clean') {
       steps{
         echo "------------>Clean<------------"
-        sh 'chmod +x ./inscripcion-ms/gradlew'
+        sh 'chmod +x ./microservicio/gradlew'
     	sh './microservicio/gradlew --b ./microservicio/build.gradle clean'
       }
     }
 
     stage('Compile & Unit Tests') {
       steps{
-        sh 'chmod +x ./inscripcion-ms/gradlew'
+        sh 'chmod +x ./microservicio/gradlew'
         sh './microservicio/gradlew --b ./microservicio/build.gradle test'
       }
     }
