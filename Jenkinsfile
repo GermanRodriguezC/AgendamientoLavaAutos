@@ -1,3 +1,4 @@
+@Library('ceiba-jenkins-library') _
 pipeline {
   //Donde se va a ejecutar el Pipeline
   agent {
@@ -30,49 +31,37 @@ pipeline {
     stage('Checkout') {
       steps{
         echo "------------>Checkout<------------"
-        checkout([
-        	$class: 'GitSCM',
-        	branches: [[name: '*/master']],
-        	doGenerateSubmoduleConfigurations: false,
-        	extensions: [],
-        	gitTool: 'Git_Centos',
-        	submoduleCfg: [],
-        	userRemoteConfigs: [[
-        	credentialsId: 'GitHub_GermanRodriguezC',
-        	url:'https://github.com/GermanRodriguezC/AgendamientoLavaAutos.git'
-        ]]
-       ])
-       sh 'gradle --b ./build.gradle compileJava'
+        checkout scm
+      }
+    }
+
+    stage('Clean') {
+      steps{
+        echo "------------>Clean<------------"
+        sh 'chmod +x ./inscripcion-ms/gradlew'
+    	sh './microservicio/gradlew --b ./microservicio/build.gradle clean'
       }
     }
 
     stage('Compile & Unit Tests') {
       steps{
-        echo "------------>Compile & Unit Tests<------------"
-        sh 'chmod +x gradlew'
-        echo "------------>Clean Tests<------------"
-        sh 'gradle --b ./build.gradle clean'
-        echo "------------>Build Tests<------------"
-        sh 'gradle --b ./build.gradle build'
-        echo "------------>Unit Tests<------------"
-        sh 'gradle --b ./build.gradle test'
-
+        sh 'chmod +x ./inscripcion-ms/gradlew'
+        sh './microservicio/gradlew --b ./microservicio/build.gradle test'
       }
     }
 
     stage('Static Code Analysis') {
       steps{
-        echo '------------>Análisis de código estático<------------'
-        withSonarQubeEnv('Sonar') {
-         sh "${tool name: 'SonarScanner', type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner -Dproject.settings=sonar-project.properties"
-        }
+        sonarqubeMasQualityGatesP(sonarKey:'co.com.ceiba.adn:agendamientolavaautos-german.rodriguez',
+                            sonarName:'"CeibaADN-AgendamientoLavaAutos(german.rodriguez)"',
+                            sonarPathProperties:'./sonar-project.properties')
       }
     }
 
     stage('Build') {
       steps {
         echo "------------>Build<------------"
-        sh 'gradle --b ./build.gradle test'
+        sh './microservicio/gradlew --b ./microservicio/build.gradle build -x test'
       }
     }
   }
@@ -83,7 +72,7 @@ pipeline {
     }
     success {
       echo 'This will run only if successful'
-      junit 'build/test-results/test/*.xml'
+      junit 'microservicio/dominio/build/test-results/test/*.xml'
     }
     failure {
       echo 'This will run only if failed'
