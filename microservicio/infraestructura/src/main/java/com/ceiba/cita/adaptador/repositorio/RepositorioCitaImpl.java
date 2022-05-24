@@ -38,7 +38,7 @@ public class RepositorioCitaImpl implements RepositorioCita {
         paramSource.addValue(FECHA, cita.getFecha());
         paramSource.addValue("hora", cita.getHora());
         paramSource.addValue("valor", cita.getValor());
-        return this.customNamedParameterJdbcTemplate.upsert(paramSource, sqlCrear);
+        return this.customNamedParameterJdbcTemplate.create(paramSource, sqlCrear);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class RepositorioCitaImpl implements RepositorioCita {
         paramSource.addValue(FECHA, cita.getFecha());
         paramSource.addValue("hora", cita.getHora());
         paramSource.addValue("valor", cita.getValor());
-        this.customNamedParameterJdbcTemplate.upsert(paramSource, sqlActualizar);
+        this.customNamedParameterJdbcTemplate.update(paramSource, sqlActualizar);
     }
 
     @Override

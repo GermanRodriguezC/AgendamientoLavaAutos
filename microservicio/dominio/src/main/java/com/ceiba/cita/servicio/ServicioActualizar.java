@@ -17,7 +17,6 @@ public class ServicioActualizar {
     public ResumenCitaDTO ejecutar(ResumenCitaDTO resumenCitaDTO) {
         var cita = Cita.reconstruir(resumenCitaDTO);
         this.repositorioCita.actualizar(cita);
-
         return new ResumenCitaDTO(cita.getId(), cita.getPlaca(), cita.getFecha(), cita.getHora(), cita.getValor());
     }
 }
