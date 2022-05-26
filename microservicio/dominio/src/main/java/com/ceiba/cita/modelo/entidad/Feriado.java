@@ -2,7 +2,7 @@ package com.ceiba.cita.modelo.entidad;
 
 import java.util.Set;
 
-public class Feriado {
+public final class Feriado {
 
     private Feriado() {
     }

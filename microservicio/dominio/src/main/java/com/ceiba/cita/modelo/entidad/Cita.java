@@ -7,7 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Cita {
+public final class Cita {
 
     private static final String REGEX_FECHA = "^([0-2][0-9]|3[0-1])(\\/|\\/)(0[1-9]|1[0-2])\\2(\\d{4})$";
     private static final String REGEX_HORA = "^([0-1][0-9]|2[0-3])(:)([0-5][0-9])$";
